@@ -1,4 +1,4 @@
-package org.tuna.server.http;
+package org.tuna.server.http.v1;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -28,6 +28,7 @@ public class App {
 
                 String requestLine = in.readLine();
                 System.out.println("Request line: " + requestLine);
+                System.out.println(in);
 
                 String[] words;
                 String endpoint = "";
