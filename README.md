@@ -1,25 +1,50 @@
-# Server Request Handling
+# HTTP Server with Sockets
 
-The server now handles **three types of requests**!
+This is a custom HTTP server built using sockets, currently designed to handle **GET** requests. 
+By using Java annotations, you can create controller classes and define route methods in a simple, intuitive way.
 
-## 1. Basic Request
+## Quick Start Guide
 
-You can send a basic request and receive a `200 OK` response.
+## 1. Create a Controller Class
+Define your controller class and annotate it with **@Controller**
 
-- **URI for basic request:** `http://localhost:4221`
+```
+@Controller
+public class MyController{}
+```
 
-## 2. Unimplemented URIs
+## 2. Initialize the HTTP Server
+Create an instance of the HttpServer, passing in the **port**  number and your **controller** instance:
 
-For all other unimplemented URIs, the server sends a `404 Not Found` response.
+```
+new HttpServer(8080, new MyController());
+```
 
-- **Example:**
-    - Request: `http://localhost:4221/hello`
-    - Response: `404 Not Found`
+## 3. Define Your Route Method
+Within your controller, define methods to handle specific HTTP requests. 
+Annotate these methods with **@Route**, specifying the HTTP method and the path.
 
-## 3. Echo Request
+```
+@Route(method = "GET", path = "/")
+public String myMethod() {
+    return "Hello, World!";
+}
+```
+- When a GET request is sent to the specified path, the server responds with the return value of the method.
 
-The server sends a `200 OK` response with a body that includes the variable from the request path.
 
-- **Example:**
-    - Request: `http://localhost:4221/echo/message`
-    - Response: `200 OK` with the body containing `"message"`
+## Features
+
+- **Annotation-based routing**: Easily define route methods with the `@Route` annotation.
+- **Simple to extend**: Add more routes and controllers as needed.
+- **GET request handling**: The server currently supports GET requests but can be extended to handle other HTTP methods.
+
+## Future Enhancements
+
+- Support for other HTTP methods (POST, PUT, DELETE).
+- Middleware for handling common tasks like logging, authentication, etc.
+- Error handling and custom status codes.
+
+---
+
+Feel free to clone, customize, and experiment with the code to suit your needs!
