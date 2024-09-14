@@ -39,3 +39,4 @@ build/
 
 /src/main/java/org/tuna/server/http/v2/test.java
 /src/main/java/org/tuna/server/http/v1/*
+/src/main/java/org/tuna/server/http/v1/App.java
