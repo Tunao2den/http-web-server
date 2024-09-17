@@ -22,10 +22,19 @@ public class HttpRequestParser {
     private String body;
 
     public HttpRequestParser(BufferedReader in){
-        this.in = in;
-        parseStartLine();
-        parseHeaders();
-        parseBody();
+        try {
+            this.in = in;
+            if(in.readLine() != null){
+                parseStartLine();
+                parseHeaders();
+                parseBody();
+            } else {
+                throw new IOException("HTTP start line is null");
+            }
+
+        } catch (IOException e){
+            LOGGER.log(Level.SEVERE, "An exception occurred", e);
+        }
     }
 
     @Override

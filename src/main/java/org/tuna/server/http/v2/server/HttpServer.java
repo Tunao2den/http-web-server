@@ -21,7 +21,7 @@ public class HttpServer {
     private ServerSocket serverSocket;
     private Socket socket;
     private Object output;
-    public BufferedReader in;
+    protected BufferedReader in;
     private PrintWriter out;
     private String httpResponse;
 
@@ -51,19 +51,12 @@ public class HttpServer {
                 String requestLine = in.readLine();
 
                 if (requestLine == null ) {
-                    String optionsResponse = "HTTP/1.1 200 OK\r\n" +
-                            "Allow: GET, POST, OPTIONS\r\n" +
-                            "Content-Length: 0\r\n" +
-                            "Connection: close\r\n" +
-                            "\r\n";
-                    out.write(optionsResponse);
+                    out.write("Connection Accepted");
                     out.flush();
                     socket.close();
                 } else {
                     in.reset();
-
                     httpRequestParser = new HttpRequestParser(in);
-                    LOGGER.log(Level.SEVERE, httpResponse);
 
                     if (checkPathExists()){
                         invokeMatchingMethodAndAssignOutput();
@@ -85,21 +78,28 @@ public class HttpServer {
         httpResponse = "HTTP/1.1 404 Not Found\r\n\r\n";
     }
 
-    private boolean checkPathExists() {
-        if (annotationProcessor.checkClassIsAnnotated()){
-            Method method = annotationProcessor.findMatchingFunction(httpRequestParser.getMethod(), httpRequestParser.getPath());
+     synchronized private boolean checkPathExists() {
+        boolean isAnnotated = annotationProcessor.checkClassIsAnnotated();
+        String requestMethod = httpRequestParser.getMethod();
+        String requestPath = httpRequestParser.getPath();
+
+        if (isAnnotated){
+            Method method = annotationProcessor.findMatchingFunction(requestMethod, requestPath);
             if (method != null){
                 return true;
             }
         }
-
         return false;
     }
 
     private void invokeMatchingMethodAndAssignOutput() {
         try {
-            if (annotationProcessor.checkClassIsAnnotated()){
-                Method method = annotationProcessor.findMatchingFunction(httpRequestParser.getMethod(), httpRequestParser.getPath());
+            boolean isAnnotated = annotationProcessor.checkClassIsAnnotated();
+            String requestMethod = httpRequestParser.getMethod();
+            String requestPath = httpRequestParser.getPath();
+
+            if (isAnnotated){
+                Method method = annotationProcessor.findMatchingFunction(requestMethod, requestPath);
                 if (method != null){
                     output =  method.invoke(controllerClass);
                 } else {
@@ -119,5 +119,20 @@ public class HttpServer {
                 "Content-Length: 23\r\n" +
                 "\r\n" +
                 message;
+    }
+
+    private void cases() {
+        String requestMethod =httpRequestParser.getMethod();
+
+        switch (requestMethod){
+            case "OPTIONS":
+                break;
+
+            case "GET":
+                break;
+
+            case "POST":
+                break;
+        }
     }
 }

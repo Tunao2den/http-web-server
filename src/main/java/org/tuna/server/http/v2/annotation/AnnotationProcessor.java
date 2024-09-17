@@ -13,7 +13,8 @@ public class AnnotationProcessor {
     }
 
     public Method findMatchingFunction(String requestMethod, String path) {
-        for (Method method : controllerClass.getClass().getDeclaredMethods()){
+        Method[] methods = controllerClass.getClass().getDeclaredMethods();
+        for (Method method : methods){
             Route methodAnnotation = method.getAnnotation(Route.class);
             if (methodAnnotation.method().equals(requestMethod) && methodAnnotation.path().equals(path)){
                 return method;
