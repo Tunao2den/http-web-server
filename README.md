@@ -3,7 +3,6 @@
 This project is a custom HTTP server built using sockets.
 By using Java annotations, you can create controller classes and define route methods in a simple way.
 
----
 
 ## Quick Start Guide:
 
