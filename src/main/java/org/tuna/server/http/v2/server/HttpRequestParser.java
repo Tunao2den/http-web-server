@@ -14,20 +14,21 @@ import java.util.logging.Logger;
 @Setter
 public class HttpRequestParser {
     private static final Logger LOGGER = Logger.getLogger(HttpRequestParser.class.getName());
-    private BufferedReader in;
     private String method;
     private String path;
     private String httpVersion;
     private Map<String, String> headers = new HashMap<>();
     private String body;
 
-    public HttpRequestParser(BufferedReader in){
+    public HttpRequestParser(){}
+
+    public void parseAll(BufferedReader in) {
         try {
-            this.in = in;
             if(in.readLine() != null){
-                parseStartLine();
-                parseHeaders();
-                parseBody();
+                in.reset();
+                parseStartLine(in);
+                parseHeaders(in);
+                parseBody(in);
             } else {
                 throw new IOException("HTTP start line is null");
             }
@@ -37,19 +38,7 @@ public class HttpRequestParser {
         }
     }
 
-    @Override
-    public String toString() {
-        return "HttpRequest{" +
-                "in=" + in +
-                ", method='" + method + '\'' +
-                ", path='" + path + '\'' +
-                ", httpVersion='" + httpVersion + '\'' +
-                ", headers=" + headers +
-                ", body='" + body + '\'' +
-                '}';
-    }
-
-    private void parseStartLine() {
+    private void parseStartLine(BufferedReader in) {
         try {
             String startLine = in.readLine();
 
@@ -68,7 +57,7 @@ public class HttpRequestParser {
         }
     }
 
-    private void parseHeaders() {
+    private void parseHeaders(BufferedReader in) {
         try {
             Map<String, String> headers = new HashMap<>();
             String line;
@@ -94,7 +83,7 @@ public class HttpRequestParser {
         }
     }
 
-    private void parseBody() {
+    private void parseBody(BufferedReader in) {
         try {
             if (getHeaders().containsKey("Content-Length")) {
                 int contentLength = Integer.parseInt(getHeaders().get("Content-Length"));
