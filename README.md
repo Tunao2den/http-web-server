@@ -1,9 +1,11 @@
 # HTTP Server with Sockets
 
-This is a custom HTTP server built using sockets, currently designed to handle **GET** requests. 
-By using Java annotations, you can create controller classes and define route methods in a simple, intuitive way.
+This project is a custom HTTP server built using sockets.
+By using Java annotations, you can create controller classes and define route methods in a simple way.
 
-## Quick Start Guide
+---
+
+## Quick Start Guide:
 
 ## 1. Create a Controller Class
 Define your controller class and annotate it with **@Controller**
@@ -38,6 +40,7 @@ public String myMethod() {
 - **Annotation-based routing**: Easily define route methods with the `@Route` annotation.
 - **Simple to extend**: Add more routes and controllers as needed.
 - **GET request handling**: The server currently supports GET requests but can be extended to handle other HTTP methods.
+- **Concurrent Request Handling:** The server can handle multiple requests simultaneously by using threads.
 
 ## Future Enhancements
 
