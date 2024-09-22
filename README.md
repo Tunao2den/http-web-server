@@ -41,7 +41,7 @@ public String myMethod() {
 
 ## Future Enhancements
 
-- Support for other HTTP methods (POST, PUT, DELETE).
+- Support for other HTTP methods (POST, DELETE).
 - Middleware for handling common tasks like logging, authentication, etc.
 - Error handling and custom status codes.
 
